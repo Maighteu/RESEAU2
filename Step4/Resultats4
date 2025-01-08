@@ -1,0 +1,103 @@
+#
+#  On démarre le serveur 
+#
+vanstapel@ubuntu:~/Documents/TCPIP/Step4 MultiClient$ ./TCPEchoServer 127.0.0.1 1300
+socket() Ok
+bind() Ok
+listen() Ok
+
+#
+# On constate avec netstat le démarrage du serveur
+#
+vanstapel@ubuntu:~/Documents/TCPIP/Step4 MultiClient$ netstat -ln4
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:1300          0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN     
+udp        0      0 127.0.0.53:53           0.0.0.0:*                          
+udp        0      0 0.0.0.0:41149           0.0.0.0:*                          
+udp        0      0 0.0.0.0:631             0.0.0.0:*                          
+udp        0      0 0.0.0.0:5353            0.0.0.0:*
+#
+# On demarre le client
+#
+vanstapel@ubuntu:~/Documents/TCPIP/Step4 MultiClient$ ./TCPEchoClient 127.0.0.1 1300
+1) Faire une Recherche 
+2) Exit 
+--------------------------
+#
+# Le serveur reçoit la demande de connexion
+#
+accept() Ok
+Handling client 127.0.0.1
+Client connecte --> Adresse IP: 127.0.0.1 -- Port: 55392
+#
+# Le client demande une Recherche et sort
+#
+vanstapel@ubuntu:~/Documents/TCPIP/Step4 MultiClient$ ./TCPEchoClient 127.0.0.1 1300
+1) Faire une Recherche 
+2) Exit 
+---------------------------1
+Entrez une référence:1
+Bytes send:160
+Bytes received:160
+>TypeRequete 4 
+>NumeroFacture 0 
+>Reference 1 
+>Quantite 0 
+>Prix 0 
+>Constructeur Audi 
+>Modele Q8 
+>Client  
+
+Constructeur , Modele:Audi Q8
+1) Faire une Recherche 
+2) Exit 
+---------------------------2
+# 
+# le serveur traite la requête et ferme la connexion
+#
+Bytes received:160
+>TypeRequete 1 
+>NumeroFacture 0 
+>Reference 1 
+>Quantite 0 
+>Prix 0 
+>Constructeur  
+>Modele  
+>Client  
+
+RechercheHV>
+Ouverture reussie VehiculesHV
+RechercheHV<
+res :1 Reference:Audi Q8
+bytes ecrits 160
+Fermeture de connexion
+#
+# Le second client se connecte
+#
+vanstapel@ubuntu:~/Documents/TCPIP/Step4 MultiClient$ ./TCPEchoClient 127.0.0.1 1300
+1) Faire une Recherche 
+2) Exit 
+---------------------------
+#
+# Le serverur traite la demande de connexion du second client
+# Notez le port qui change
+accept() Ok
+Handling client 127.0.0.1
+Client connecte --> Adresse IP: 127.0.0.1 -- Port: 58882
+#
+# Constater les deux connexions avec la commande netstat -n4
+#
+vanstapel@ubuntu:~/Documents/TCPIP/Step4 MultiClient$ netstat -n4
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:1300          127.0.0.1:58882         ESTABLISHED
+tcp        0      0 127.0.0.1:58882         127.0.0.1:1300          ESTABLISHED
+udp        0      0 192.168.133.129:68      192.168.133.254:67      ESTABLISHED
+
+
+
+
+

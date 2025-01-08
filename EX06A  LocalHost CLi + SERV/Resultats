@@ -1,0 +1,27 @@
+## On affiche L"IP et le port du client Connecte sur le serveur
+## Demarrage du serveur
+vanstapel@vanstap2:~/TCPIP/EX06$ ./TCPEchoServer localhost 1300
+getaddrinfo: 127.0.0.1
+socket() Ok
+bind() Ok
+listen() Ok
+vanstapel@vanstap2:~/TCPIP/EX06$ netstat -l4n
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:1300          0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN  
+# On démarre le client
+vanstapel@vanstap2:~/TCPIP/EX06$ ./TCPEchoClient localhost 1300 "Ceci est 2000"
+getaddrinfo: 127.0.0.1
+Received: Ceci est 2000
+# On regarde le serveur
+accept() Ok
+Client connecte --> Adresse IP: 127.0.0.1 -- Port: 56364
+Bytes received:13
+Bytes send:13
+Bytes received:0
+
+

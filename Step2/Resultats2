@@ -1,0 +1,62 @@
+#
+#  On démarre le serveur qui prend l'adresse par défaut
+#
+vanstapel@vanstap2:~/TCPIP/Step2$ ./TCPEchoServer 1300
+socket() Ok
+bind() Ok
+listen() Ok
+#
+# On constate avec netstat le démarrage du serveur
+#
+vanstapel@vanstap2:~/TCPIP/Step2$ netstat -l4n
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:1300            0.0.0.0:*               LISTEN  
+#
+# On demarre le client
+#
+vanstapel@vanstap2:~/TCPIP/Step2 ANY$ ./TCPEchoClient 127.0.0.1 1300
+Entrez une référence:1
+Bytes send:160
+Bytes received:160
+>TypeRequete 4 
+>NumeroFacture 0 
+>Reference 1 
+>Quantite 20 
+>Prix 0 
+>Constructeur Audi 
+>Modele Q8 
+>Client  
+
+Constructeur , Modele:Audi Q8
+#
+# Le serveur reçoit la réponse
+#
+vanstapel@vanstap2:~/TCPIP/Step2 ANY$ ./TCPEchoServer 1300
+socket() Ok
+bind() Ok
+listen() Ok
+accept() Ok
+Bytes received:160
+>TypeRequete 1 
+>NumeroFacture 0 
+>Reference 1 
+>Quantite 0 
+>Prix 0 
+>Constructeur  
+>Modele  
+>Client  
+
+RechercheHV>
+Ouverture reussie VehiculesHV
+RechercheHV<
+res :1 Reference:Audi Q8
+bytes ecrits 160
+
+
+
+
+
+

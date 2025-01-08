@@ -1,0 +1,96 @@
+vanstapel@ubuntu:~/Documents/TCPIP/Step1$ ./admin
+-------2022-----------
+1) Ajout              
+2) Vehicule           
+4) Recherche          
+5) Achat              
+6) Factures           
+7) A propos           
+8) exit               
+----------------------
+>>2
+Ouverture reussie 
+Ref Constructeur                  Modele                        Quantite
+Record lu 1 et Position actuelle dans le fichier 72
+1   Dacia                         AAAA                          1     
+Record lu 1 et Position actuelle dans le fichier 144
+2   Dacia                         BBBBB                         4     
+Record lu 1 et Position actuelle dans le fichier 216
+3   EEEE                          RRRR                          3     
+Record lu 1 et Position actuelle dans le fichier 288
+4   FFFFF                         SSSSSS                        10    
+-------2022-----------
+1) Ajout              
+2) Vehicule           
+4) Recherche          
+5) Achat              
+6) Factures           
+7) A propos           
+8) exit               
+----------------------
+>>8
+vanstapel@ubuntu:~/Documents/TCPIP/Step1$ ./admin
+-------2022-----------
+1) Ajout              
+2) Vehicule           
+4) Recherche          
+5) Achat              
+6) Factures           
+7) A propos           
+8) exit               
+----------------------
+>>7
+Version : V 1 
+Nom1 : Herman 
+Nom2 : Vanstapel 
+-------2022-----------
+1) Ajout              
+2) Vehicule           
+4) Recherche          
+5) Achat              
+6) Factures           
+7) A propos           
+8) exit               
+----------------------
+>>2
+Ouverture reussie 
+Ref Constructeur                  Modele                        Quantite
+Record lu 1 et Position actuelle dans le fichier 72
+1   Dacia                         AAAA                          1     
+Record lu 1 et Position actuelle dans le fichier 144
+2   Dacia                         BBBBB                         4     
+Record lu 1 et Position actuelle dans le fichier 216
+3   EEEE                          RRRR                          3     
+Record lu 1 et Position actuelle dans le fichier 288
+4   FFFFF                         SSSSSS                        10    
+-------2022-----------
+1) Ajout              
+2) Vehicule           
+4) Recherche          
+5) Achat              
+6) Factures           
+7) A propos           
+8) exit               
+----------------------
+>>4
+Saisie Reference:4
+RechercheHV>
+Ouverture reussie VehiculesHV
+Reference lue 1 et Position actuelle dans le fichier 72
+Reference lue 2 et Position actuelle dans le fichier 144
+Reference lue 3 et Position actuelle dans le fichier 216
+RechercheHV<
+Ref Constructeur                  Modele                        Quantite
+4   FFFFF                         SSSSSS                        10    
+-------2022-----------
+1) Ajout              
+2) Vehicule           
+4) Recherche          
+5) Achat              
+6) Factures           
+7) A propos           
+8) exit               
+----------------------
+>>
+
+
