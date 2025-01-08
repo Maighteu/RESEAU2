@@ -1,0 +1,61 @@
+### Un serveur qui prend la première ip dispo
+### Un client qui se connecte sur l'ip dispo
+### SUGGESTION Afficer coté serveur, le nombre de bytes lus et écrits
+
+### Le serveur
+vanstapel@vanstap2:~/TCPIP/ex01$ ./TCPEchoServer 1300
+socket() Ok
+bind() Ok
+listen() Ok
+###  Le Client
+vanstapel@vanstap2:~/TCPIP/ex01$ netstat -l4
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 localhost:ipp           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:1300            0.0.0.0:*               LISTEN     
+tcp        0      0 localhost:953           0.0.0.0:*               LISTEN     
+tcp        0      0 192.168.232.129:domain  0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.53:domain       0.0.0.0:*               LISTEN     
+tcp        0      0 localhost:domain        0.0.0.0:*               LISTEN     
+udp        0      0 0.0.0.0:34718           0.0.0.0:*                          
+udp        0      0 192.168.232.129:domain  0.0.0.0:*                          
+udp        0      0 192.168.232.129:domain  0.0.0.0:*                          
+udp        0      0 localhost:domain        0.0.0.0:*                          
+udp        0      0 localhost:domain        0.0.0.0:*                          
+udp        0      0 127.0.0.53:domain       0.0.0.0:*                          
+udp        0      0 0.0.0.0:631             0.0.0.0:*                          
+udp        0      0 0.0.0.0:mdns            0.0.0.0:*     
+
+vanstapel@vanstap2:~/TCPIP/ex01$ ./TCPEchoClient 0.0.0.0 1300 "Coucou"
+Received: Coucou
+### Le Serveur après appel client
+vanstapel@vanstap2:~/TCPIP/ex01$ ./TCPEchoServer 1300
+socket() Ok
+bind() Ok
+listen() Ok
+accept() Ok
+Handling client 127.0.0.1
+### Le tcpdump
+root@vanstap2:/home/vanstapel/TCPIP/ex01# tcpdump -i lo -vv port 1300
+tcpdump: listening on lo, link-type EN10MB (Ethernet), capture size 262144 bytes
+14:20:42.592861 IP (tos 0x0, ttl 64, id 37910, offset 0, flags [DF], proto TCP (6), length 60)
+    localhost.56082 > localhost.1300: Flags [S], cksum 0xfe30 (incorrect -> 0x6660), seq 2133814405, win 65495, options [mss 65495,sackOK,TS val 2124717857 ecr 0,nop,wscale 7], length 0
+14:20:42.592906 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    localhost.1300 > localhost.56082: Flags [S.], cksum 0xfe30 (incorrect -> 0x33f9), seq 211290116, ack 2133814406, win 65483, options [mss 65495,sackOK,TS val 2124717857 ecr 2124717857,nop,wscale 7], length 0
+14:20:42.592918 IP (tos 0x0, ttl 64, id 37911, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.56082 > localhost.1300: Flags [.], cksum 0xfe28 (incorrect -> 0x5ab5), seq 1, ack 1, win 512, options [nop,nop,TS val 2124717857 ecr 2124717857], length 0
+14:20:42.592978 IP (tos 0x0, ttl 64, id 37912, offset 0, flags [DF], proto TCP (6), length 58)
+    localhost.56082 > localhost.1300: Flags [P.], cksum 0xfe2e (incorrect -> 0x325f), seq 1:7, ack 1, win 512, options [nop,nop,TS val 2124717857 ecr 2124717857], length 6
+14:20:42.592982 IP (tos 0x0, ttl 64, id 33918, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.1300 > localhost.56082: Flags [.], cksum 0xfe28 (incorrect -> 0x5aaf), seq 1, ack 7, win 512, options [nop,nop,TS val 2124717857 ecr 2124717857], length 0
+14:20:42.593149 IP (tos 0x0, ttl 64, id 33919, offset 0, flags [DF], proto TCP (6), length 58)
+    localhost.1300 > localhost.56082: Flags [P.], cksum 0xfe2e (incorrect -> 0x3258), seq 1:7, ack 7, win 512, options [nop,nop,TS val 2124717858 ecr 2124717857], length 6
+14:20:42.593165 IP (tos 0x0, ttl 64, id 37913, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.56082 > localhost.1300: Flags [.], cksum 0xfe28 (incorrect -> 0x5aa7), seq 7, ack 7, win 512, options [nop,nop,TS val 2124717858 ecr 2124717858], length 0
+14:20:42.593552 IP (tos 0x0, ttl 64, id 37914, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.56082 > localhost.1300: Flags [F.], cksum 0xfe28 (incorrect -> 0x5aa6), seq 7, ack 7, win 512, options [nop,nop,TS val 2124717858 ecr 2124717858], length 0
+14:20:42.593592 IP (tos 0x0, ttl 64, id 33920, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.1300 > localhost.56082: Flags [F.], cksum 0xfe28 (incorrect -> 0x5aa5), seq 7, ack 8, win 512, options [nop,nop,TS val 2124717858 ecr 2124717858], length 0
+14:20:42.593612 IP (tos 0x0, ttl 64, id 37915, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.56082 > localhost.1300: Flags [.], cksum 0xfe28 (incorrect -> 0x5aa5), seq 8, ack 8, win 512, options [nop,nop,TS val 2124717858 ecr 2124717858], length 0
+

@@ -1,0 +1,40 @@
+# ON CONSTATE LE SOUCIS AVEC LOCALHOST
+### Le ping
+vanstapel@vanstap2:/mnt/hgfs/Windowstmp/TCPIP/ex03B$ ping localhost
+PING localhost (127.0.0.1) 56(84) bytes of data.
+64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.034 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=2 ttl=64 time=0.049 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=3 ttl=64 time=0.070 ms
+64 bytes from localhost (127.0.0.1): icmp_seq=4 ttl=64 time=0.054 ms
+^C
+### On lance le serveur
+vanstapel@vanstap2:/mnt/hgfs/Windowstmp/TCPIP/ex03B$ ./TCPEchoServer localhost 1300
+socket() Ok
+bind() Ok
+listen() Ok
+### On constate le soucis avec l'adresse 255.255.255.255 ?????
+vanstapel@vanstap2:/mnt/hgfs/Windowstmp/TCPIP/ex03$ netstat -l4n
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN     
+tcp        0      0 255.255.255.255:1300    0.0.0.0:*               LISTEN     
+### on Constate que le client ne peut pas se connecter
+vanstapel@vanstap2:/mnt/hgfs/Windowstmp/TCPIP/ex03$ ./TCPEchoClient localhost 1300 "Bonjour madame"
+connect() failed: Network is unreachable
+### Affichons le fichier /etc/Hosts
+vanstapel@vanstap2:/mnt/hgfs/Windowstmp/TCPIP/ex03$ cat /etc/hosts
+127.0.0.1	localhost
+192.168.10.10	vanstap2
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+#
+# Suggestion dans le fichier hosts rajouter votre NOM
+# Faire un ping pour tester votre nom
+#
+
+

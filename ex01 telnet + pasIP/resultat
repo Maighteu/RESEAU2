@@ -1,0 +1,46 @@
+# Demarrage du Server
+vanstapel@vanstap2:~/TCPIP/ex01$ ./TCPEchoServer 1300
+socket() Ok
+bind() Ok
+listen() Ok
+# On vérifier que le serveur à démarré
+vanstapel@vanstap2:~/TCPIP/ex01$ netstat -l4
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 localhost:ipp           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:1300            0.0.0.0:*               LISTEN   
+# On lance telnet
+vanstapel@vanstap2:~/TCPIP/ex01$ telnet 0.0.0.0 1300
+Trying 0.0.0.0...
+Connected to 0.0.0.0.
+Escape character is '^]'.
+# le serveur a accepté la demande de connexion du client
+Handling client 127.0.0.1
+# je tape des séquences sur le client telnet
+aaaa
+aaaa
+bbbb
+bbbb
+# le serveur affiche
+Bytes received:6
+Bytes send:6
+Bytes received:6
+Bytes send:6
+# Pour sortir de telnet
+# CTRL + ATL GR + ]  ( Prendre celui du $ )
+# taper quit
+^]
+telnet> quit
+Connection closed.
+# le server affiche
+Bytes received:0
+# Je relance un autre client telnet
+vanstapel@vanstap2:~/TCPIP/ex01$ telnet 0.0.0.0 1300
+Trying 0.0.0.0...
+Connected to 0.0.0.0.
+Escape character is '^]'.
+# le server affiche
+accept() Ok
+Handling client 127.0.0.1
+
+

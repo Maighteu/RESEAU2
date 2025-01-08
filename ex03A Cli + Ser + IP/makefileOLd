@@ -1,0 +1,20 @@
+all:	TCPEchoServer	TCPEchoClient	LibHV.o	HandleTCPClient.o
+LibHV.o:	LibHV.c	LibHV.h
+	echo "Compilation de  LibHV.o"
+	gcc -c LibHV.c
+
+HandleTCPClient.o:	HandleTCPClient.c	HandleTCPClient.h
+	echo "Compilation de HandleTCPClient.o"
+	gcc -c HandleTCPClient.c
+	
+TCPEchoServer:	TCPEchoServer.c	HandleTCPClient.o	LibHV.o
+	echo "Compilation de  TCPEchoServer"
+	gcc -o	TCPEchoServer  TCPEchoServer.c  HandleTCPClient.o	LibHV.o
+	
+TCPEchoClient: TCPEchoClient.c	LibHV.o	
+	echo "Compilation de TCPEchoServer"
+	gcc -o TCPEchoClient	TCPEchoClient.c	LibHV.o
+	
+
+
+

@@ -1,0 +1,34 @@
+### Utiiisation du localhost coté serveur
+### Rajouter votre propre nom au fichier host et testez avec celui la
+### Le serveur
+vanstapel@vanstap2:~/TCPIP/EX05$ ./TCPEchoServer localhost 1300
+getaddrinfo: 127.0.0.1
+socket() Ok
+bind() Ok
+listen() Ok
+### Le Client
+vanstapel@vanstap2:/mnt/hgfs/Windowstmp/TCPIP/ex03$ netstat -l4n
+ ctive Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:1300          0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN     
+udp        0      0 127.0.0.1:53            0.0.0.0:*                          
+udp        0      0 127.0.0.1:53            0.0.0.0:*                          
+udp        0      0 127.0.0.53:53           0.0.0.0:*                          
+udp        0      0 0.0.0.0:37216           0.0.0.0:*                          
+udp        0      0 0.0.0.0:631             0.0.0.0:*                          
+udp        0      0 0.0.0.0:5353            0.0.0.0:*        
+### Le Client Toujours               
+vanstapel@vanstap2:~/TCPIP/EX05$ ./TCPEchoClient 127.0.0.1 1300 "Ceci est un estessai"
+Received: Ceci est un estessai
+### Le serveur
+Handling client 127.0.0.1
+Bytes received:20
+Bytes send:20
+Bytes received:0
+
+
+

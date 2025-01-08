@@ -1,0 +1,55 @@
+### Un serveur qui prend la première ip dispo
+### Un client qui se connecte sur l'ip dispo
+### SUGGESTION Afficer coté serveur, le nombre de bytes lus et écrits
+# Le client Envoie une structure de donnee au serveur
+
+### Le serveur
+vanstapel@vanstap2:~/TCPIP/ex02S$ ./TCPEchoServer 1300
+socket() Ok
+bind() Ok
+listen() Ok
+### On constate le démarrage du serveur
+vanstapel@vanstap2:~/TCPIP/ex02S$ netstat -l4
+Active Internet connections (only servers)
+
+cv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 localhost:domain        0.0.0.0:*               LISTEN     
+tcp        0      0 localhost:domain        0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:1300            0.0.0.0:*               LISTEN   
+### On lance le client
+vanstapel@vanstap2:~/TCPIP/ex02S$ ./TCPEchoClient 0.0.0.0 1300 "COUCOU"
+Received: COUCOU
+### On regarde le serveur
+accept() Ok
+Handling client 127.0.0.1
+#COUCOU
+Connexion Closed
+### TCPDUMP
+Proto Reroot@vanstap2:/home/vanstapel/TCPIP/ex02S# tcpdump -i lo -vv port 1300
+tcpdump: listening on lo, link-type EN10MB (Ethernet), capture size 262144 bytes
+# OUVERTURE DE CONNEXION 1
+09:19:25.869616 IP (tos 0x0, ttl 64, id 39552, offset 0, flags [DF], proto TCP (6), length 60)
+    localhost.43256 > localhost.1300: Flags [S], cksum 0xfe30 (incorrect -> 0x0a6e), seq 3603494473, win 65495, options [mss 65495,sackOK,TS val 3590845548 ecr 0,nop,wscale 7], length 0
+09:19:25.869677 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    localhost.1300 > localhost.43256: Flags [S.], cksum 0xfe30 (incorrect -> 0x219f), seq 2015209015, ack 3603494474, win 65483, options [mss 65495,sackOK,TS val 3590845548 ecr 3590845548,nop,wscale 7], length 0
+09:19:25.869712 IP (tos 0x0, ttl 64, id 39553, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.43256 > localhost.1300: Flags [.], cksum 0xfe28 (incorrect -> 0x485b), seq 1, ack 1, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 0
+# ENVOI DES DONNEES VERS LE SERVEUR 45 BYTES
+09:19:25.869856 IP (tos 0x0, ttl 64, id 39554, offset 0, flags [DF], proto TCP (6), length 96)
+    localhost.43256 > localhost.1300: Flags [P.], cksum 0xfe54 (incorrect -> 0x307b), seq 1:45, ack 1, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 44
+# LE SERVEUR ACQUITTE LES DONNEES
+09:19:25.869893 IP (tos 0x0, ttl 64, id 48121, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.1300 > localhost.43256: Flags [.], cksum 0xfe28 (incorrect -> 0x482f), seq 1, ack 45, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 0
+# LE SERVEUR FAIT UN ECHO et ENVoie LES DATAS Au clieNT
+09:19:25.869919 IP (tos 0x0, ttl 64, id 48122, offset 0, flags [DF], proto TCP (6), length 96)
+    localhost.1300 > localhost.43256: Flags [P.], cksum 0xfe54 (incorrect -> 0x304f), seq 1:45, ack 45, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 44
+# LE CLIENT ACQUITTE LES DONNEES
+09:19:25.869933 IP (tos 0x0, ttl 64, id 39555, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.43256 > localhost.1300: Flags [.], cksum 0xfe28 (incorrect -> 0x4803), seq 45, ack 45, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 0
+# LE CLIENT FERME LA CONNEXiON
+09:19:25.869978 IP (tos 0x0, ttl 64, id 39556, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.43256 > localhost.1300: Flags [F.], cksum 0xfe28 (incorrect -> 0x4802), seq 45, ack 45, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 0
+09:19:25.870035 IP (tos 0x0, ttl 64, id 48123, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.1300 > localhost.43256: Flags [F.], cksum 0xfe28 (incorrect -> 0x4801), seq 45, ack 46, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 0
+09:19:25.870083 IP (tos 0x0, ttl 64, id 39557, offset 0, flags [DF], proto TCP (6), length 52)
+    localhost.43256 > localhost.1300: Flags [.], cksum 0xfe28 (incorrect -> 0x4801), seq 46, ack 46, win 512, options [nop,nop,TS val 3590845548 ecr 3590845548], length 0

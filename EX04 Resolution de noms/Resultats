@@ -1,0 +1,20 @@
+# On consulte le fichier hosts
+vanstapel@vanstap2:~/TCPIP/EX04$ cat /etc/hosts
+127.0.0.1	localhost
+192.168.10.10	vanstap2
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+# Execution du programme TestResolution
+vanstapel@vanstap2:~/TCPIP/EX04$ ./a.out
+Pour www.google.be avec le service http :
+Adresse IP: 172.217.23.195 -- Port: 80
+Pour 192.168.232.129 : 1300  :
+Hote: 192.168.232.129 -- Service: 1300
+Localhost is at: 127.0.0.1
+vanstap2 is at: 192.168.10.10
+
