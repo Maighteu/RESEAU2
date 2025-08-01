@@ -1,0 +1,71 @@
+#
+#  On démarre le serveur 
+#
+/TCPEchoServer 127.0.0.1 1300
+socket() Ok
+bind() Ok
+listen() Ok
+#
+# On constate avec netstat le démarrage du serveur
+#
+anstapel@vanstap2:~/TCPIP/Step3 TO IP$ netstat -ln4
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:1300          0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN     
+udp        0      0 0.0.0.0:56733           0.0.0.0:*                          
+udp        0      0 127.0.0.1:53            0.0.0.0:*                          
+udp        0      0 127.0.0.1:53            0.0.0.0:*                          
+udp        0      0 127.0.0.53:53           0.0.0.0:*                          
+udp        0      0 0.0.0.0:631             0.0.0.0:*                          
+udp        0      0 0.0.0.0:5353            0.0.0.0:*       
+#
+# On demarre le client
+#
+vanstapel@vanstap2:~/TCPIP/Step3 TO IP$ ./TCPEchoClient 127.0.0.1 1300
+Entrez une référence:1
+Bytes send:176
+Bytes received:176
+>TypeRequete 4 
+>Reference 0 
+>NumeroFacture 0 
+>Date 0 
+>Reference 1 
+>Places 0 
+>Prix 0 
+>Constructeur Audi 
+>Modele Q8 
+>Client  
+
+Constructeur , Modele:Audi Q8
+#
+# Le serveur reçoit la réponse
+#
+accept() Ok
+Handling client 127.0.0.1
+Bytes received:176
+>TypeRequete 1 
+>Reference 0 
+>NumeroFacture 0 
+>Date 0 
+>Reference 1 
+>Places 0 
+>Prix 0 
+>Constructeur  
+>Modele  
+>Client  
+
+RechercheHV>
+Ouverture reussie VehiculesHV
+RechercheHV<
+res :1 Reference:Audi Q8
+bytes ecrits 176
+
+
+
+
+

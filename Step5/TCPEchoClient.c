@@ -1,0 +1,137 @@
+#include <stdio.h>      /* for printf() and fprintf() */
+#include <sys/socket.h> /* for socket(), connect(), send(), and recv() */
+#include <arpa/inet.h>  /* for sockaddr_in and inet_addr() */
+#include <stdlib.h>     /* for atoi() and exit() */
+#include <string.h>     /* for memset() */
+#include <unistd.h>     /* for close() */
+#include "Requete.h"
+#include <netdb.h>
+
+#define RCVBUFSIZE 32   /* Size of receive buffer */
+
+void DieWithError(char *errorMessage)
+{
+    perror(errorMessage);
+    exit(1);
+} 
+
+int main(int argc, char *argv[])
+{
+    int sock;                        /* Socket descriptor */
+    struct sockaddr_in echoServAddr; /* Echo server address */
+    unsigned short echoServPort;     /* Echo server port */
+    char *servIP;                    /* Server IP address (dotted quad) */
+    char *echoString;                /* String to echo */
+    unsigned int echoStringLen;      /* Length of string to echo */
+    char host[NI_MAXHOST];
+    char port[NI_MAXSERV];
+    struct addrinfo hints;           /* Structure containing additional address informations */
+    struct addrinfo *results;        /* Structure containing the results of the address resolution */
+    struct addrinfo *info;  
+    
+ int rc ;
+ int Desc ;
+ int tm ; 
+ int choix;
+    struct Requete UneRequete ;
+
+    if (argc != 3)    /* Test for correct number of arguments */
+    {
+       fprintf(stderr, "Usage: %s <Server IP> <Echo Port>] <Echo Word> \n",
+               argv[0]);
+       exit(1);
+    }
+
+     /* Address resolution for the address given in the parameters */
+    memset(&hints, 0, sizeof(struct addrinfo)); /* Initialisation to 0 */
+    /* Add some information about the address */
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_NUMERICSERV; /* Ask to not resolve port number */
+    fprintf(stderr, "(Process) Address resolution...\n");
+    if (getaddrinfo(argv[1], argv[2], &hints, &results) != 0)
+    {
+        fprintf(stderr, "(Error) getaddrinfo() failed\n");
+    }
+    else
+    {
+        /* Display host name and port number */
+        for (info = results; info != NULL; info = info->ai_next)
+        {
+          getnameinfo(info->ai_addr, info->ai_addrlen, host, NI_MAXHOST, port, NI_MAXSERV, 0);
+          fprintf(stderr, "Host: %s --- Service: %s\n", host, port);
+        }
+        freeaddrinfo(results);
+    }
+
+    /* Set variables */
+    struct sockaddr_in *internet_addr = (struct sockaddr_in *)results->ai_addr;
+    servIP = inet_ntoa(internet_addr->sin_addr);           /* First arg: server IP address (dotted quad) */
+    echoServPort = atoi(argv[2]); /* Second arg: server Port */
+
+    /* Create a reliable, stream socket using TCP */
+    if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+        DieWithError("socket() failed");
+
+    /* Construct the server address structure */
+    memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
+    echoServAddr.sin_family      = AF_INET;             /* Internet address family */
+    echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
+    echoServAddr.sin_port        = htons(echoServPort); /* Server port */
+
+    /* Establish the connection to the echo server */
+    if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+        DieWithError("connect() failed");
+
+    echoStringLen = strlen(echoString);          /* Determine input length */
+ struct Requete ARequest;
+    /* Send the string to the server */
+  while(1)
+   {
+         memset(&ARequest, 0, sizeof(struct Requete));
+      printf("---------------------------------\n");
+      printf("1. Demander une reference\n3. Quitter\n");
+      printf("---------------------------------\n");
+      printf("Choix de l'utilisateur : ");
+      scanf("%d", &choix);
+      printf("---------------------------------\n");
+
+      switch(choix)
+      {
+         case 1 : 
+                UneRequete.Type = 1;
+                printf("Saisissez la reference : ");
+                scanf("%d", &UneRequete.Reference);
+                strcpy(UneRequete.Constructeur, "");
+                strcpy(UneRequete.Modele, "");
+                UneRequete.Numero = 0;
+                UneRequete.NumeroFacture = 0;
+                UneRequete.Date = 0;
+                UneRequete.Quantite = 0;
+                UneRequete.Prix = 0;
+                strcpy(UneRequete.NomClient, "");
+                strcpy(UneRequete.Transmission, "");
+                    if (write(sock, &UneRequete, sizeof(struct Requete)) != sizeof(struct Requete))
+                    DieWithError("send() sent a different number of bytes than expected");
+
+                printf("Requete envoyee\n");
+                AfficheRequete(stderr, UneRequete);
+                /* Receive the same structure back from the server */
+                printf("Received: ");                /* Setup to print the echoed string */
+                 memset(&UneRequete,0,sizeof(struct Requete)) ;
+                if ((read(sock, &UneRequete, sizeof(struct Requete))) <= 0)
+                        DieWithError("recv() failed or connection closed prematurely");
+                    
+                printf("Constructeur : %s \n", UneRequete.Constructeur);
+                printf("Modele : %s \n", UneRequete.Modele);
+                printf("Quantite : %d \n", UneRequete.Quantite);
+                printf("Transmission : %s \n", UneRequete.Transmission);
+                printf("Reference : %d \n", UneRequete.Reference);
+                printf("\n");                         /* Print a final linefeed */
+                break;
+                case 3: exit(1);
+        }
+    }
+    close(sock);
+    exit(0);
+}
