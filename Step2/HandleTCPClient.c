@@ -2,7 +2,7 @@
 #include <sys/socket.h> /* for recv() and send() */
 #include <unistd.h>     /* for close() */
 #include <string.h>
-#include "LibSer.h"
+#include "LibSerHV.h"
 #include "Requete.h"
 
 #define RCVBUFSIZE 32   /* Size of receive buffer */
@@ -18,8 +18,9 @@ void HandleTCPClient(int clntSocket)
         DieWithError("recv() failed");
     while(recvMsgSize>0) 
     {   
-      printf("#%s\n",UneRequete.Chaine) ;       
+      // printf("#%s\n",UneRequete.Chaine) ;       
     /* Echo message back to client */
+        
     if (write(clntSocket, &UneRequete, recvMsgSize) != recvMsgSize)
             DieWithError("send() failed");
     

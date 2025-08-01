@@ -7,7 +7,7 @@
 
 #define MAXPENDING 5    /* Maximum outstanding connection requests */
 
-#include "LibSer.h"  	/* Error handling function */
+#include "LibSerHV.h"
 #include "HandleTCPClient.h"   /* TCP client handling function */
 
 int main(int argc, char *argv[])

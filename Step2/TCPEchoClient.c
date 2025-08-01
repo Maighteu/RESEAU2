@@ -23,7 +23,10 @@ int main(int argc, char *argv[])
     char *echoString;                /* String to echo */
     unsigned int echoStringLen;      /* Length of string to echo */
     
-
+ int rc ;
+ int Desc ;
+ int tm ; 
+ int choix;
     struct Requete UneRequete ;
 
     if ((argc < 4) || (argc > 4))    /* Test for correct number of arguments */
