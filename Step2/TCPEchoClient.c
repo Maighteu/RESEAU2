@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
  int choix;
     struct Requete UneRequete ;
 
-    if ((argc < 4) || (argc > 4))    /* Test for correct number of arguments */
+    if (argc != 3)    /* Test for correct number of arguments */
     {
        fprintf(stderr, "Usage: %s <Server IP> <Echo Port>] <Echo Word> \n",
                argv[0]);
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     servIP = argv[1];             /* First arg: server IP address (dotted quad) */
     echoServPort = atoi(argv[2]);   /* Second arg: server Port */
-    echoString = argv[3];         /* Third arg: string to echo */
+      /* Third arg: string to echo */
 
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
@@ -56,19 +56,37 @@ int main(int argc, char *argv[])
 
     echoStringLen = strlen(echoString);          /* Determine input length */
 
-    strncpy(UneRequete.Chaine,echoString,sizeof(UneRequete.Chaine));
     /* Send the string to the server */
-    if (write(sock, &UneRequete, sizeof(struct Requete)) != sizeof(struct Requete))
+
+    UneRequete.Type = OK;
+    printf("Saisissez la reference : ");
+    scanf("%d", &UneRequete.Reference);
+    strcpy(UneRequete.Constructeur, "");
+    strcpy(UneRequete.Modele, "");
+    UneRequete.Numero = 0;
+    UneRequete.NumeroFacture = 0;
+    UneRequete.Date = 0;
+    UneRequete.Quantite = 0;
+    UneRequete.Prix = 0;
+    strcpy(UneRequete.NomClient, "");
+    strcpy(UneRequete.Transmission, "");
+        if (write(sock, &UneRequete, sizeof(struct Requete)) != sizeof(struct Requete))
         DieWithError("send() sent a different number of bytes than expected");
 
+    printf("Requete envoyee\n");
+    AfficheRequete(stderr, UneRequete);
     /* Receive the same structure back from the server */
     printf("Received: ");                /* Setup to print the echoed string */
-    
+     memset(&UneRequete,0,sizeof(struct Requete)) ;
     if ((read(sock, &UneRequete, sizeof(struct Requete))) <= 0)
             DieWithError("recv() failed or connection closed prematurely");
         
-    printf("%s", UneRequete.Chaine);      /* Print the echo buffer */
-    printf("\n");                         /* Print a final linefeed */
+   printf("Constructeur : %s \n", UneRequete.Constructeur);
+   printf("Modele : %s \n", UneRequete.Modele);
+   printf("Quantite : %d \n", UneRequete.Quantite);
+   printf("Transmission : %s \n", UneRequete.Transmission);
+   printf("Reference : %d \n", UneRequete.Reference);
+       printf("\n");                         /* Print a final linefeed */
 
     close(sock);
     exit(0);
